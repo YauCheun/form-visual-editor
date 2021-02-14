@@ -1,0 +1,105 @@
+$menuSize: 275px; // 菜单栏宽度
+$headSize: 80px; // 顶部操作栏高度
+$operatorSize: 275px; // 右侧编辑详情宽度
+
+$borderColor: #dcdfe6;   //边框颜色 
+$borderLight: #ebeef5;   // 边框颜色 浅
+$textColor: #314659;     // 文本颜色
+$iconColor: rgba(0, 0, 0, 0.45); // 字体图标颜色
+$boxShadowColor: #f0f1f2; // 阴影颜色
+
+$primary: #3fb280;  // 基础颜色
+
+
+.visual-editor{
+  position: fixed;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  z-index: 1;
+  &:after{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #35495d;
+    content: '';
+    z-index: -1;
+  }
+  .visual-editor-menu{
+    position: absolute;
+    width: $menuSize;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 60px 20px 20px;
+    box-sizing: border-box;
+    background-color: white;
+    overflow-y: auto;
+    .visual-editor-menu-title {
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      color: white;
+      height: 36px;
+      line-height: 36px;
+      background-color: $primary;
+    }
+  }
+  .visual-editor-head {
+    position: absolute;
+    top: 0;
+    left: $menuSize;
+    right: $operatorSize;
+    height: $headSize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .visual-editor-operator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: $operatorSize;
+    background-color: white;
+    padding: 60px 20px 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    .visual-editor-operator-title{
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      color: white;
+      height: 36px;
+      line-height: 36px;
+      background-color: $primary;
+    }
+  }
+  .visual-editor-body {
+    padding-top: $headSize;
+    padding-left: $menuSize;
+    padding-right: $operatorSize;
+    height: 100%;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+
+    .visual-editor-content {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
