@@ -10,5 +10,10 @@ visualConfig.registry('text',{
 visualConfig.registry('input',{
   label:'输入框',
   preview:()=><ElInput/>,
-  render:()=>"渲染输入框"
+  render:()=><ElInput/>
+})
+visualConfig.registry('button',{
+  label:'按钮',
+  preview:()=><ElButton>按钮</ElButton>,
+  render:()=><ElButton>渲染按钮</ElButton>
 })

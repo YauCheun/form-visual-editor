@@ -6,8 +6,10 @@ export interface VisualEditorModelValue {
   blocks: VisualEditorBlockData[]
 }
 export interface VisualEditorBlockData {
-  left: number,
-  top: number
+  componentKey: string,       //映射VIsualEditorConfig 中componentMap的component对象
+  left: number,               //组件的top定位
+  top: number,             //组件的left定位
+  adjustPosition: boolean    //是否需要调整位置
 }
 
 //控件接口
