@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-02-14 10:24:27
- * @LastEditTime: 2021-02-16 17:44:49
- * @LastEditors: your name
+ * @LastEditTime: 2021-02-17 15:16:58
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \form-visual-editor\README.md
 -->
@@ -20,8 +20,8 @@
 
 - [x] 主页面结构：左侧可选组件列表、中间容器画布、右侧编辑组件定义好的属性
 - [x] 从菜单拖拽组件到容器；
-- [ ] Block的选中状态；
-- [ ] 容器内的组件可以拖拽移动位置；
+- [x] Block的选中状态；
+- [x] 容器内的组件可以拖拽移动位置；
 - [ ] 命令队列以及对应的快捷键；
 - [ ] 单选、多选；
 - [ ] 设计好操作栏按钮：

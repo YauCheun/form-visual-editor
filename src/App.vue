@@ -37,7 +37,8 @@ export default defineComponent({
           {
             top: 152.5,
             left: 168,
-            componentKey: 'input'
+            componentKey: 'input',
+            focus:true
           },
           {
             top: 190,

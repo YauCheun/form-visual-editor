@@ -1,5 +1,18 @@
+/*
+ * @Author: your name
+ * @Date: 2021-02-14 15:39:03
+ * @LastEditTime: 2021-02-17 13:13:55
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \form-visual-editor\src\packages\utils\useModel.tsx
+ */
 import { defineComponent, ref, watch } from "vue";
 
+/**
+ * 双向绑定传的json值
+ * @param getter 获取props的值
+ * @param emitter emit给父组件
+ */
 export function useModel<T>(getter: () => T, emitter: (val: T) => void) {
   const state = ref(getter()) as { value: T }
 

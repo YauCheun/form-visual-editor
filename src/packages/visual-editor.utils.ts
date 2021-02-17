@@ -1,3 +1,4 @@
+//控件json接口
 export interface VisualEditorModelValue {
   container: {
     width: number,
@@ -5,11 +6,14 @@ export interface VisualEditorModelValue {
   },
   blocks: VisualEditorBlockData[]
 }
+
+//每个控件属性接口
 export interface VisualEditorBlockData {
   componentKey: string,       //映射VIsualEditorConfig 中componentMap的component对象
   left: number,               //组件的top定位
-  top: number,             //组件的left定位
-  adjustPosition: boolean    //是否需要调整位置
+  top: number,                 //组件的left定位
+  adjustPosition: boolean,    //是否需要调整位置
+  focus: boolean              //是否为选中状态
 }
 
 //控件接口
@@ -18,6 +22,20 @@ export interface VisualEditorComponent {
   label: string, // 控件label
   preview: () => JSX.Element, //预览的JSX
   render: () => JSX.Element //渲染的JSX
+}
+
+export function createNewBlock(data: {
+  component: VisualEditorComponent,
+  top: number,
+  left: number
+}): VisualEditorBlockData{
+  return {
+    componentKey: data.component!.key,
+    top: data.top,
+    left: data.left,
+    adjustPosition:true,
+    focus:false
+  }
 }
 
 export function createVisualEditorConfig() {

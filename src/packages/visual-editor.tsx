@@ -1,6 +1,6 @@
 import { computed, defineComponent, onMounted, PropType, ref } from "vue";
 import "@/assets/css/visual-editor.scss"
-import { VisualEditorBlockData, VisualEditorComponent, VisualEditorConfig, VisualEditorModelValue } from "./visual-editor.utils";
+import { createNewBlock, VisualEditorBlockData, VisualEditorComponent, VisualEditorConfig, VisualEditorModelValue } from "./visual-editor.utils";
 import { useModel } from "./utils/useModel";
 import { VisualEditorBlock } from '@/packages/visual-editor-block'
 
@@ -22,11 +22,19 @@ export const VisualEditor = defineComponent({
     }
   },
   setup(props, ctx) {
+    //方法一,双向绑定值
     const dataModel = useModel(() => props.modelValue, val => ctx.emit('update:modelValue', val))
+    //方法二
+    // const dataModel = computed(()=>{
+    //   return props.modelValue
+    // })
+    
+    //container节点的style样式
     const containerStyle = computed(() => ({
       width: `${dataModel.value.container.width}px`,
       height: `${dataModel.value.container.height}px`
     }))
+    //container节点的dom对象的引用
     const containerRef = ref({} as HTMLDivElement)
 
     // 菜单组件拖拽
@@ -66,19 +74,109 @@ export const VisualEditor = defineComponent({
         //当元素放下到drop元素(contanier)触发，获取事件对象的offsetX|Y,添加组件数据
         drop: (e: DragEvent) => {
           const blocks = dataModel.value.blocks || []
-          blocks.push({
-            componentKey: component!.key,
-            top: e.offsetY,
-            left: e.offsetX,
-            adjustPosition:true
-          })
+          blocks.push(createNewBlock({component:component!,top:e.offsetY,left:e.offsetX}))
+
+          //封装方法更新父组件的值,方法一
           dataModel.value = {
             ...dataModel.value,
             blocks
           }
+          //方法二
+          // ctx.emit("update:modelValue",{
+          //     ...dataModel.value,
+          //     blocks
+          //   })
         }
       }
       return blockHandler
+    })()
+    //对外暴露的方法
+    const methods = {
+      clearFocus:(block?: VisualEditorBlockData)=>{
+        let blocks = dataModel.value.blocks || []
+        if(blocks.length==0) return 
+        if(block){
+          blocks=blocks.filter(item=>item!=block)
+        }
+        blocks.forEach(block=>{
+          block.focus=false
+        })
+      }
+    }
+    //鼠标点击组件选中
+    const focusHandler = (()=>{
+      return {
+        container: {
+          onMouseDown:(e: MouseEvent) => {
+            methods.clearFocus()
+            e.stopPropagation()
+            e.preventDefault()
+          }
+        },
+        block: {
+          onMouseDown:(e: MouseEvent,block: VisualEditorBlockData) =>{
+            e.stopPropagation()
+            e.preventDefault()
+            if(e.shiftKey){
+              /** 如果按住了shift,如果此时没有选中的block,就选中这个block,否则取反这个block的选中状态 */
+              if(focusData.value.focus.length<=1){
+                block.focus=true
+              }else{
+                block.focus=!block.focus
+              }
+            }else{
+              if(!block.focus){
+                block.focus=true
+                methods.clearFocus(block)
+              }
+            }
+            blockDraggier.mousedown(e)
+          }
+        }
+      }
+    })()
+
+    //计算选中block和未选择block
+    const focusData = computed(()=>{
+      let focus: VisualEditorBlockData[] = []
+      let unFocus: VisualEditorBlockData[] = [];
+      (dataModel.value.blocks || []).forEach((block: VisualEditorBlockData)=>block.focus?focus.push(block):unFocus.push(block))
+      return {
+        focus,
+        unFocus
+      }
+    })
+    //处理block在container中拖拽移动的相关动作
+    const blockDraggier = (()=>{
+      let dragState = {
+        startX:0,
+        startY:0,
+        startPos:[] as {left: number,top: number}[]
+      }
+      const mousedown = (e: MouseEvent) =>{
+        dragState = {
+          startX: e.clientX,
+          startY: e.clientY,
+          startPos: focusData.value.focus.map(({top,left})=>({top,left}))
+        }
+        document.addEventListener("mousemove",mousemove)
+        document.addEventListener("mouseup",mouseup)
+      }
+      const mousemove = (e: MouseEvent) =>{
+        const durX = e.clientX - dragState.startX
+        const durY = e.clientY - dragState.startY
+        focusData.value.focus.forEach((block,index)=>{
+          block.top = dragState.startPos[index].top + durY
+          block.left = dragState.startPos[index].left + durX
+
+        }) 
+      }
+      const mouseup = (e: MouseEvent) =>{
+        document.removeEventListener("mousemove",mousemove)
+        document.removeEventListener("mouseup",mouseup)
+      }
+
+      return {mousedown}
     })()
     return () => (
       <div class="visual-editor">
@@ -110,10 +208,21 @@ export const VisualEditor = defineComponent({
         </div>
         <div class="visual-editor-body">
           <div class="visual-editor-content">
-            <div class="visual-editor-container" style={containerStyle.value} ref={containerRef}>
+            <div class="visual-editor-container" 
+                style={containerStyle.value} 
+                ref={containerRef}
+                onMousedown={(e: MouseEvent)=>focusHandler.container.onMouseDown(e)}
+            >
               {!!dataModel.value.blocks && (
                 dataModel.value.blocks.map((block, index) => (
-                  <VisualEditorBlock config={props.config} block={block} key={index} />
+                  <VisualEditorBlock 
+                    config={props.config} 
+                    block={block} 
+                    key={index}
+                    {...{
+                      onMouseDown:(e: MouseEvent)=>focusHandler.block.onMouseDown(e,block)
+                    }}
+                  />
                 ))
               )}
 

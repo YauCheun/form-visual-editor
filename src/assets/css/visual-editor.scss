@@ -8,7 +8,7 @@ $textColor: #314659;     // 文本颜色
 $iconColor: rgba(0, 0, 0, 0.45); // 字体图标颜色
 $boxShadowColor: #f0f1f2; // 阴影颜色
 
-$primary: #3fb280;  // 基础颜色
+$primary: #409eff;  // 基础颜色
 
 
 .visual-editor{
@@ -143,6 +143,19 @@ $primary: #3fb280;  // 基础颜色
         position: relative;
         .visual-editor-block{
           position: absolute;
+          &::after{
+            position: absolute;
+            content: '';
+            top: -2px;
+            left:-2px;
+            bottom:-2px;
+            right:-2px;
+          }
+        }
+        .visual-editor-block-focus{
+          &::after{
+            border: dashed 1px $primary
+          }
         }
       }
     }
