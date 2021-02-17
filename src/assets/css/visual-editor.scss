@@ -1,17 +1,18 @@
+@import '../iconfont/iconfont.css';
 $menuSize: 275px; // 菜单栏宽度
 $headSize: 80px; // 顶部操作栏高度
 $operatorSize: 275px; // 右侧编辑详情宽度
 
-$borderColor: #dcdfe6;   //边框颜色 
-$borderLight: #ebeef5;   // 边框颜色 浅
-$textColor: #314659;     // 文本颜色
+$borderColor: #dcdfe6; //边框颜色 
+$borderLight: #ebeef5; // 边框颜色 浅
+$textColor: #314659; // 文本颜色
 $iconColor: rgba(0, 0, 0, 0.45); // 字体图标颜色
 $boxShadowColor: #f0f1f2; // 阴影颜色
 
-$primary: #409eff;  // 基础颜色
+$primary: #409eff; // 基础颜色
 
 
-.visual-editor{
+.visual-editor {
   position: fixed;
   top: 20px;
   bottom: 20px;
@@ -21,7 +22,8 @@ $primary: #409eff;  // 基础颜色
   border-radius: 6px;
   overflow: hidden;
   z-index: 1;
-  &:after{
+
+  &:after {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -31,7 +33,8 @@ $primary: #409eff;  // 基础颜色
     content: '';
     z-index: -1;
   }
-  .visual-editor-menu{
+
+  .visual-editor-menu {
     position: absolute;
     width: $menuSize;
     top: 0;
@@ -42,8 +45,9 @@ $primary: #409eff;  // 基础颜色
     box-sizing: border-box;
     background-color: white;
     overflow-y: auto;
-    z-index:9;
-    .visual-editor-menu-item{
+    z-index: 9;
+
+    .visual-editor-menu-item {
       position: relative;
       width: calc(100% - 20px);
       margin-left: 10px;
@@ -55,16 +59,18 @@ $primary: #409eff;  // 基础颜色
       align-items: center;
       padding: 50px 20px;
       box-sizing: border-box;
-      &::after{
+
+      &::after {
         position: absolute;
-        top:0;
+        top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        content:'';
+        content: '';
         z-index: 2;
       }
-      .visual-editor-menu-item-label{
+
+      .visual-editor-menu-item-label {
         position: absolute;
         top: -3px;
         left: -3px;
@@ -74,11 +80,13 @@ $primary: #409eff;  // 基础颜色
         font-size: 12px;
         z-index: 1;
       }
-      &:hover{
+
+      &:hover {
         border-color: $primary;
         cursor: move;
       }
     }
+
     .visual-editor-menu-title {
       text-align: center;
       position: absolute;
@@ -91,6 +99,7 @@ $primary: #409eff;  // 基础颜色
       background-color: $primary;
     }
   }
+
   .visual-editor-head {
     position: absolute;
     top: 0;
@@ -100,7 +109,48 @@ $primary: #409eff;  // 基础颜色
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .visual-editor-head-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #acacac;
+      color: white;
+      width: 46px;
+      height: 48px;
+      transition: all 0.2s linear;
+      cursor: pointer;
+
+      &+.visual-editor-head-button {
+        margin-left: 1px;
+      }
+
+      &:first-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+      }
+
+      &:hover {
+        background-color: white;
+        color: $primary;
+      }
+
+      i {
+        font-size: 20px;
+      }
+
+      span {
+        font-size: 12px;
+      }
+    }
   }
+
   .visual-editor-operator {
     position: absolute;
     top: 0;
@@ -111,7 +161,8 @@ $primary: #409eff;  // 基础颜色
     padding: 60px 20px 20px;
     box-sizing: border-box;
     overflow-y: auto;
-    .visual-editor-operator-title{
+
+    .visual-editor-operator-title {
       text-align: center;
       position: absolute;
       top: 0;
@@ -123,6 +174,7 @@ $primary: #409eff;  // 基础颜色
       background-color: $primary;
     }
   }
+
   .visual-editor-body {
     padding-top: $headSize;
     padding-left: $menuSize;
@@ -130,30 +182,35 @@ $primary: #409eff;  // 基础颜色
     height: 100%;
     box-sizing: border-box;
     background-color: #f8f8f8;
+
     .visual-editor-content {
       width: 100%;
       height: 100%;
       overflow: auto;
       display: flex;
       justify-content: center;
-      .visual-editor-container{
+
+      .visual-editor-container {
         background-color: #fff;
         flex-shrink: 0;
         flex-grow: 0;
         position: relative;
-        .visual-editor-block{
+
+        .visual-editor-block {
           position: absolute;
-          &::after{
+
+          &::after {
             position: absolute;
             content: '';
             top: -2px;
-            left:-2px;
-            bottom:-2px;
-            right:-2px;
+            left: -2px;
+            bottom: -2px;
+            right: -2px;
           }
         }
-        .visual-editor-block-focus{
-          &::after{
+
+        .visual-editor-block-focus {
+          &::after {
             border: dashed 1px $primary
           }
         }
